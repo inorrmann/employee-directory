@@ -1,12 +1,8 @@
 import React from 'react';
-// import the file that will have the container for the entire users' directory
+import UserContainer from "./components/UserContainer";
 
 function App() {
-  return (
-    <div className="App">
-      
-    </div>
-  );
+  return <UserContainer />;
 }
 
 export default App;
