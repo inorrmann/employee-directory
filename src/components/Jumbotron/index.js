@@ -6,7 +6,7 @@ class Jumbotron extends Component {
         return (
             <div className="jumbotron jumbotron-fluid text-center">
                     <h1>User Directory</h1>
-                    <p>Click on carrots to sort by heading or use the Search Box to narrow your results </p>
+                    <p>Sort the displayed information by column or use the Search Box to narrow your results </p>
             </div>
         )
     }

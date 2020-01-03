@@ -1,0 +1,25 @@
+#image {
+    width: 13%;
+    text-align: center;
+}
+
+#name, #email {
+    width: 24.5%;
+    text-align: center;
+}
+
+#phone, #dob {
+    width: 19%;
+    text-align: center;
+}
+
+
+
+
+.results {
+    margin: auto;
+}
+
+.head {
+font-weight: bolder;
+}
