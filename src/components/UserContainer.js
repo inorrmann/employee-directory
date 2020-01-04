@@ -15,6 +15,7 @@ function UserContainer() {
     const [names, setNames] = useState(null);
     const [searchName, setSearchName] = useState("");
     const [endDOB, setEndDOB] = useState("mm/dd/yyyy")
+    const [startDOB, setStartDOB] = useState("mm/dd/yyyy")
 
 
     useEffect(() => {
@@ -39,6 +40,7 @@ function UserContainer() {
         // clear the value of the input nameSearch
         setSearchName("");
         setEndDOB("mm/dd/yyyy");
+        setStartDOB("mm/dd/yyyy");
     }
 
     const handleNameChange = event => {
@@ -47,6 +49,11 @@ function UserContainer() {
 
     const handleEndDOBChange = event => {
         setEndDOB(event.target.value);
+        console.log(event.target.value);
+    }
+
+    const handleStartDOBChange = event => {
+        setStartDOB(event.target.value);
         console.log(event.target.value);
     }
 
@@ -61,6 +68,8 @@ function UserContainer() {
                     searchName={searchName}
                     endDOB={endDOB}
                     handleEndDOBChange={handleEndDOBChange}
+                    startDOB={startDOB}
+                    handleStartDOBChange={handleStartDOBChange}
                 />
                 }
             </Row>
@@ -86,9 +95,31 @@ function UserContainer() {
                     }
                 </Table>}
                 {/* Renders selection of table rows by endDOB */}
-                {users && searchName === "" && endDOB !== "mm/dd/yyyy" && <Table>
+                {users && searchName === "" && startDOB !== "mm/dd/yyyy" && endDOB !== "mm/dd/yyyy" && <Table>
                     {users.map(user => {
-                        if (endDOB.split("-")[0] >= user.dob.date.split("-")[0] && endDOB.split("-")[1] >= user.dob.date.split("-")[1] && endDOB.split("-")[2] >= user.dob.date.split("-")[2].slice(0, 2)) {
+                        let userDOB = parseInt(user.dob.date.split("-")[0] + user.dob.date.split("-")[1] + user.dob.date.split("-")[2].slice(0, 2));
+                        let endDOBSearch = parseInt(endDOB.replace(/-/g, ""));
+                        let startDOBSearch = parseInt(startDOB.replace(/-/g, ""));
+                        if (endDOBSearch >= userDOB && startDOBSearch <= userDOB) {
+                            return <TableRows
+                                key={user.login.uuid}
+                                picture={user.picture.medium}
+                                name={user.name}
+                                username={user.login.username}
+                                email={user.email}
+                                dob={user.dob.date}
+                            />
+                        }
+                    })
+                    }
+                </Table>}
+                {/* Renders selection of DOB and Name */}
+                {users && searchName === "" && startDOB !== "mm/dd/yyyy" && endDOB !== "mm/dd/yyyy" && <Table>
+                    {users.map(user => {
+                        let userDOB = parseInt(user.dob.date.split("-")[0] + user.dob.date.split("-")[1] + user.dob.date.split("-")[2].slice(0, 2));
+                        let endDOBSearch = parseInt(endDOB.replace(/-/g, ""));
+                        let startDOBSearch = parseInt(startDOB.replace(/-/g, ""));
+                        if (endDOBSearch >= userDOB && startDOBSearch <= userDOB) {
                             return <TableRows
                                 key={user.login.uuid}
                                 picture={user.picture.medium}
