@@ -1,26 +1,9 @@
 import axios from "axios";
-const BASEURL = "https://randomuser.me/api/";
 
 export default {
-    search: function(query) {
-        return axios.get(BASEURL + query)
+    getUsers: function() {
+        return axios.get("https://randomuser.me/api/?results=5&inc=name,email,login,dob,picture,id")
     }
 }
 
-
-// query = ?results=5000
-// ?exc=login
-// ?inc=gender,name,nat
-// gender
-// name
-// location
-// email
-// login
-// registered
-// dob
-// phone
-// cell
-// id
-// picture
-// nat
        

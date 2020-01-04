@@ -10,7 +10,7 @@ function Table(props) {
                     <tr>
                         <th id="image" scope="col">Image</th>
                         <th id="name" scope="col">Name</th>
-                        <th id="phone" scope="col">Phone</th>
+                        <th id="username" scope="col">Username</th>
                         <th id="email" scope="col">Email</th>
                         <th id="dob" scope="col">DOB</th>
                     </tr>

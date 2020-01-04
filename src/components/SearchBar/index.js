@@ -12,7 +12,7 @@ function SearchBar(props) {
                     <input type="date" className="form-control" name="endDate" id="endDate" />
                 </div>
                 <input type="text" className="form-control col-md-2 mx-5" name="nameSearch" id="nameSearch" placeholder="Name" />
-                <button type="submit" className="btn btn-light border-dark">Search</button>
+                <button onClick={props.handleFormSubmit} type="submit" className="btn btn-light border-dark">Search</button>
             </form>
         </div>
     );

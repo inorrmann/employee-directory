@@ -4,16 +4,13 @@ import "./style.css"
 function TableRows(props) {
     return (
         <tr>
-            {/* <td id="image">{props.image}</td>
-            <td id="name">{props.name}</td>
-            <td id="phone">{props.phone}</td>
+            <td id="image">
+                <img src={props.picture} alt="profile pic"></img>
+            </td>
+            <td id="name">{props.name.first + " " + props.name.last}</td>
+            <td id="username">{props.username}</td>
             <td id="email">{props.email}</td>
-            <td id="dob">{props.dob}</td> */}
-            <td id="image">picture</td>
-            <td id="name">NAME</td>
-            <td id="phone">999-000-0000</td>
-            <td id="email">email@email.com</td>
-            <td id="dob">00/00/9999</td>
+            <td id="dob">{props.dob.split("-")[1] + "/" + props.dob.split("-")[2].slice(0,2) + "/" + props.dob.split("-")[0]}</td>
         </tr>
     )
 }
