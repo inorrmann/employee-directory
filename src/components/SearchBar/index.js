@@ -17,6 +17,8 @@ function SearchBar(props) {
                         id="startDate"
                     />
                     <input
+                    value={props.endDOB}
+                    onChange={props.handleEndDOBChange}
                         type="date"
                         className="form-control"
                         name="endDate"

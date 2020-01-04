@@ -14,7 +14,7 @@ function UserContainer() {
     const [users, setUsers] = useState(null);
     const [names, setNames] = useState(null);
     const [searchName, setSearchName] = useState("");
-    const [startDOB, setStartDOB] = useState("mm/dd/yyyy")
+    const [endDOB, setEndDOB] = useState("mm/dd/yyyy")
 
 
     useEffect(() => {
@@ -38,16 +38,16 @@ function UserContainer() {
         event.preventDefault();
         // clear the value of the input nameSearch
         setSearchName("");
-        console.log(searchName);
+        setEndDOB("mm/dd/yyyy");
     }
 
     const handleNameChange = event => {
         setSearchName(event.target.value);
     };
 
-    const handleStartDOBChange = event => {
-        setStartDOB(event.target.value);
-        console.log(event.target.value)
+    const handleEndDOBChange = event => {
+        setEndDOB(event.target.value);
+        console.log(event.target.value);
     }
 
     return (
@@ -59,8 +59,8 @@ function UserContainer() {
                     handleNameChange={handleNameChange}
                     names={names}
                     searchName={searchName}
-                    startDOB={startDOB}
-                    handleStartDOBChange={handleStartDOBChange}
+                    endDOB={endDOB}
+                    handleEndDOBChange={handleEndDOBChange}
                 />
                 }
             </Row>
@@ -85,8 +85,24 @@ function UserContainer() {
                     })
                     }
                 </Table>}
+                {/* Renders selection of table rows by endDOB */}
+                {users && searchName === "" && endDOB !== "mm/dd/yyyy" && <Table>
+                    {users.map(user => {
+                        if (endDOB.split("-")[0] >= user.dob.date.split("-")[0] && endDOB.split("-")[1] >= user.dob.date.split("-")[1] && endDOB.split("-")[2] >= user.dob.date.split("-")[2].slice(0, 2)) {
+                            return <TableRows
+                                key={user.login.uuid}
+                                picture={user.picture.medium}
+                                name={user.name}
+                                username={user.login.username}
+                                email={user.email}
+                                dob={user.dob.date}
+                            />
+                        }
+                    })
+                    }
+                </Table>}
                 {/* Renders table rows on load and after Reset is clicked*/}
-                {users && searchName === "" && <Table>
+                {users && searchName === "" && endDOB === "mm/dd/yyyy" && <Table>
                     {users.map(user => (
                         <TableRows
                             key={user.login.uuid}
