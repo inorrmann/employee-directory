@@ -8,11 +8,35 @@ function SearchBar(props) {
                     <div className="input-group-prepend">
                         <span className="input-group-text">DOB</span>
                     </div>
-                    <input type="date" className="form-control" name="startDate" id="startDate" />
-                    <input type="date" className="form-control" name="endDate" id="endDate" />
+                    <input
+                        type="date"
+                        className="form-control"
+                        name="startDate"
+                        id="startDate"
+                    />
+                    <input
+                        type="date"
+                        className="form-control"
+                        name="endDate"
+                        id="endDate"
+                    />
                 </div>
-                <input type="text" className="form-control col-md-2 mx-5" name="nameSearch" id="nameSearch" placeholder="Name" />
-                <button onClick={props.handleFormSubmit} type="submit" className="btn btn-light border-dark">Search</button>
+                <input
+                    value={props.searchName}
+                    onChange={props.handleInputChange}
+                    list="names"
+                    type="text"
+                    className="form-control col-md-2 mx-5"
+                    name="nameSearch" 
+                    id="nameSearch"
+                    placeholder="Name"
+                />
+                <datalist id="names">
+                    {props.names.map(name => (
+                        <option value={name} key={name} />
+                    ))}
+                </datalist>
+                <button onClick={props.searchBtn} type="submit" className="btn btn-light border-dark">Reset</button>
             </form>
         </div>
     );

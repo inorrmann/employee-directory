@@ -8,7 +8,7 @@ function Table(props) {
             <table className="table table-striped">
                 <thead className="head">
                     <tr>
-                        <th id="image" scope="col">Image</th>
+                        <th id="image" scope="col">Profile Pic</th>
                         <th id="name" scope="col">Name</th>
                         <th id="username" scope="col">Username</th>
                         <th id="email" scope="col">Email</th>
