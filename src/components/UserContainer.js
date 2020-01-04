@@ -11,10 +11,11 @@ function UserContainer() {
     // before the API call the state of users will be null, which means that 
     // nothing will be rendered in the table rows because there's a 
     // conditional below in the return, by the Table tag
-    const [users, setUsers] = useState(null)
-    const [names, setNames] = useState(null)
-    const [searchName, setSearchName] = useState(null)
-    const [clearSearch, setClearSearch] = useState(null)
+    const [users, setUsers] = useState(null);
+    const [names, setNames] = useState(null);
+    const [searchName, setSearchName] = useState("");
+    const [startDOB, setStartDOB] = useState("mm/dd/yyyy")
+
 
     useEffect(() => {
         API.getUsers()
@@ -33,29 +34,33 @@ function UserContainer() {
         // an infinite loop of API calls
     }, []);
 
-    const searchBtn = event => {
+    const clearBtn = event => {
         event.preventDefault();
         // clear the value of the input nameSearch
-        setClearSearch("");
+        setSearchName("");
         console.log(searchName);
-        console.log(clearSearch);
     }
 
-    const handleInputChange = event => {
+    const handleNameChange = event => {
         setSearchName(event.target.value);
-        setClearSearch(event.target.value);
-        console.log(event.target.value)
     };
+
+    const handleStartDOBChange = event => {
+        setStartDOB(event.target.value);
+        console.log(event.target.value)
+    }
 
     return (
         <Container>
             <Jumbotron />
             <Row rowClass="top-row">
                 {names && <SearchBar
-                    searchBtn={searchBtn}
-                    handleInputChange={handleInputChange}
+                    clearBtn={clearBtn}
+                    handleNameChange={handleNameChange}
                     names={names}
-                    searchName={clearSearch}
+                    searchName={searchName}
+                    startDOB={startDOB}
+                    handleStartDOBChange={handleStartDOBChange}
                 />
                 }
             </Row>
@@ -63,9 +68,9 @@ function UserContainer() {
                 {/* users && -> render users onl when we have a user, this will prevent that 
                 at the beginning of loading, before the api gets the data 
                 we receive an error because we don't have users */}
-                
+
                 {/* Renders select table rows after name has been entered */}
-                {users && searchName && clearSearch !== "" && <Table>
+                {users && searchName !== "" && <Table>
                     {users.map(user => {
                         if (searchName === user.name.first) {
                             return <TableRows
@@ -80,22 +85,8 @@ function UserContainer() {
                     })
                     }
                 </Table>}
-                {/* Renders table rows on load */}
-                {users && searchName === null && clearSearch === null && <Table>
-                    {users.map(user => (
-                        <TableRows
-                            key={user.login.uuid}
-                            picture={user.picture.medium}
-                            name={user.name}
-                            username={user.login.username}
-                            email={user.email}
-                            dob={user.dob.date}
-                        />
-                    ))
-                    }
-                </Table>}
-                {/* Renders table rows after Reset has been clicked */}
-                {users && clearSearch === "" && <Table>
+                {/* Renders table rows on load and after Reset is clicked*/}
+                {users && searchName === "" && <Table>
                     {users.map(user => (
                         <TableRows
                             key={user.login.uuid}

@@ -9,6 +9,8 @@ function SearchBar(props) {
                         <span className="input-group-text">DOB</span>
                     </div>
                     <input
+                        value={props.startDOB}
+                        onChange={props.handleStartDOBChange}
                         type="date"
                         className="form-control"
                         name="startDate"
@@ -23,11 +25,11 @@ function SearchBar(props) {
                 </div>
                 <input
                     value={props.searchName}
-                    onChange={props.handleInputChange}
+                    onChange={props.handleNameChange}
                     list="names"
                     type="text"
                     className="form-control col-md-2 mx-5"
-                    name="nameSearch" 
+                    name="nameSearch"
                     id="nameSearch"
                     placeholder="Name"
                 />
@@ -36,7 +38,7 @@ function SearchBar(props) {
                         <option value={name} key={name} />
                     ))}
                 </datalist>
-                <button onClick={props.searchBtn} type="submit" className="btn btn-light border-dark">Reset</button>
+                <button onClick={props.clearBtn} type="submit" className="btn btn-danger border-dark">Reset</button>
             </form>
         </div>
     );
