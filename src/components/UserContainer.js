@@ -24,7 +24,10 @@ function UserContainer() {
                 setUsers(res.data.results);
                 let namesArr = [];
                 res.data.results.map(result => {
-                    return namesArr.push(result.name.first);
+                    const sameName = (nameArr) => {return nameArr === result.name.first}
+                    if (!namesArr.some(sameName)) {
+                        return namesArr.push(result.name.first);
+                    }
                 });
                 console.log(res);
                 setNames(namesArr);
@@ -78,8 +81,8 @@ function UserContainer() {
                 at the beginning of loading, before the api gets the data 
                 we receive an error because we don't have users */}
 
-                {/* Renders select table rows after name has been entered */}
-                {users && searchName !== "" && <Table>
+                {/* Renders selection of Name */}
+                {users && searchName !== "" && startDOB === "mm/dd/yyyy" && endDOB === "mm/dd/yyyy" && <Table>
                     {users.map(user => {
                         if (searchName === user.name.first) {
                             return <TableRows
@@ -94,7 +97,7 @@ function UserContainer() {
                     })
                     }
                 </Table>}
-                {/* Renders selection of table rows by endDOB */}
+                {/* Renders selection of DOB */}
                 {users && searchName === "" && startDOB !== "mm/dd/yyyy" && endDOB !== "mm/dd/yyyy" && <Table>
                     {users.map(user => {
                         let userDOB = parseInt(user.dob.date.split("-")[0] + user.dob.date.split("-")[1] + user.dob.date.split("-")[2].slice(0, 2));
@@ -114,12 +117,12 @@ function UserContainer() {
                     }
                 </Table>}
                 {/* Renders selection of DOB and Name */}
-                {users && searchName === "" && startDOB !== "mm/dd/yyyy" && endDOB !== "mm/dd/yyyy" && <Table>
+                {users && searchName !== "" && startDOB !== "mm/dd/yyyy" && endDOB !== "mm/dd/yyyy" && <Table>
                     {users.map(user => {
                         let userDOB = parseInt(user.dob.date.split("-")[0] + user.dob.date.split("-")[1] + user.dob.date.split("-")[2].slice(0, 2));
                         let endDOBSearch = parseInt(endDOB.replace(/-/g, ""));
                         let startDOBSearch = parseInt(startDOB.replace(/-/g, ""));
-                        if (endDOBSearch >= userDOB && startDOBSearch <= userDOB) {
+                        if (endDOBSearch >= userDOB && startDOBSearch <= userDOB && searchName === user.name.first) {
                             return <TableRows
                                 key={user.login.uuid}
                                 picture={user.picture.medium}
@@ -132,7 +135,7 @@ function UserContainer() {
                     })
                     }
                 </Table>}
-                {/* Renders table rows on load and after Reset is clicked*/}
+                {/* Renders all table rows on load and after Reset is clicked*/}
                 {users && searchName === "" && endDOB === "mm/dd/yyyy" && <Table>
                     {users.map(user => (
                         <TableRows
