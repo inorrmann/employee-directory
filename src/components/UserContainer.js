@@ -16,7 +16,7 @@ function UserContainer() {
     const [searchName, setSearchName] = useState("");
     const [endDOB, setEndDOB] = useState("mm/dd/yyyy");
     const [startDOB, setStartDOB] = useState("mm/dd/yyyy");
-    const [sorted, setSorted] = useState(users);
+    const [sorted, setSorted] = useState(null);
 
 
 
@@ -48,7 +48,8 @@ function UserContainer() {
         setEndDOB("mm/dd/yyyy");
         setStartDOB("mm/dd/yyyy");
         setSorted(null)
-        console.log(users);
+        console.log("reset")
+        console.log(sorted)
     }
 
     // Display only selected names
@@ -75,121 +76,70 @@ function UserContainer() {
         if (event.target.id === "username") {
             users.sort((a, b) => (a.login.username > b.login.username) ? 1 : -1);
             sortedUsers = users;
-            console.log(users)
-            console.log(sortedUsers)
         }
         else if (event.target.id === "image") {
-            users.sort((a,b) => (a.picture.medium > b.picture.medium) ? 1 : -1);
+            users.sort((a, b) => (a.picture.medium > b.picture.medium) ? 1 : -1);
             sortedUsers = users;
-            console.log(users)
-            console.log(sortedUsers)
         }
         else if (event.target.id === "email") {
-            users.sort((a,b) => (a.email > b.email) ? 1 : -1);
+            users.sort((a, b) => (a.email > b.email) ? 1 : -1);
             sortedUsers = users;
-            console.log(users)
-            console.log(sortedUsers)
         }
         else if (event.target.id === "dob") {
             users.sort((a, b) => (a.dob.date > b.dob.date) ? 1 : -1);
             sortedUsers = users;
-            console.log(users)
-            console.log(sortedUsers)
+        }
+        else if (event.target.id === "name") {
+            users.sort((a, b) => {
+                if (a.name.first > b.name.first) {
+                    return 1
+                }
+                else if (a.name.first === b.name.first) {
+                    if (a.name.last > b.name.last) {
+                        return 1
+                    } else {
+                        return -1
+                    }
+                }
+                else {
+                    return -1
+                }
+            });
+            sortedUsers = users;
         }
 
-        console.log("WTF?!")
-        console.log(sortedUsers)
         setSorted(sortedUsers);
-        console.log(users);
+        console.log(sorted);
     }
 
     return (
-            <Container>
-                <Jumbotron />
-                <Row rowClass="top-row">
-                    {names && <SearchBar
-                        clearBtn={clearBtn}
-                        handleNameChange={handleNameChange}
-                        names={names}
-                        searchName={searchName}
-                        endDOB={endDOB}
-                        handleEndDOBChange={handleEndDOBChange}
-                        startDOB={startDOB}
-                        handleStartDOBChange={handleStartDOBChange}
-                    />
-                    }
-                </Row>
-                <Row rowClass="bottom-row">
-                    {/* users && -> render users onl when we have a user, this will prevent that 
+        <Container>
+            <Jumbotron />
+            <Row rowClass="top-row">
+                {names && <SearchBar
+                    clearBtn={clearBtn}
+                    handleNameChange={handleNameChange}
+                    names={names}
+                    searchName={searchName}
+                    endDOB={endDOB}
+                    handleEndDOBChange={handleEndDOBChange}
+                    startDOB={startDOB}
+                    handleStartDOBChange={handleStartDOBChange}
+                />
+                }
+            </Row>
+            <Row rowClass="bottom-row">
+                {/* users && -> render users onl when we have a user, this will prevent that 
                 at the beginning of loading, before the api gets the data 
                 we receive an error because we don't have users */}
 
-                    {/* Renders selection of Name */}
-                    {users && sorted == null && searchName !== "" && startDOB === "mm/dd/yyyy" && endDOB === "mm/dd/yyyy" && <Table
-                        sortByColumn={sortByColumn}
-                    >
-                        {users.map(user => {
-                            if (searchName === user.name.first) {
-                                return <TableRows
-                                    key={user.login.uuid}
-                                    picture={user.picture.medium}
-                                    name={user.name}
-                                    username={user.login.username}
-                                    email={user.email}
-                                    dob={user.dob.date}
-                                />
-                            }
-                        })
-                        }
-                    </Table>}
-                    {/* Renders selection of DOB */}
-                    {users && sorted == null && searchName === "" && startDOB !== "mm/dd/yyyy" && endDOB !== "mm/dd/yyyy" && <Table
-                        sortByColumn={sortByColumn}
-                    >
-                        {users.map(user => {
-                            let userDOB = parseInt(user.dob.date.split("-")[0] + user.dob.date.split("-")[1] + user.dob.date.split("-")[2].slice(0, 2));
-                            let endDOBSearch = parseInt(endDOB.replace(/-/g, ""));
-                            let startDOBSearch = parseInt(startDOB.replace(/-/g, ""));
-                            if (endDOBSearch >= userDOB && startDOBSearch <= userDOB) {
-                                return <TableRows
-                                    key={user.login.uuid}
-                                    picture={user.picture.medium}
-                                    name={user.name}
-                                    username={user.login.username}
-                                    email={user.email}
-                                    dob={user.dob.date}
-                                />
-                            }
-                        })
-                        }
-                    </Table>}
-                    {/* Renders selection of DOB and Name */}
-                    {users && sorted == null && searchName !== "" && startDOB !== "mm/dd/yyyy" && endDOB !== "mm/dd/yyyy" && <Table
-                        sortByColumn={sortByColumn}
-                    >
-                        {users.map(user => {
-                            let userDOB = parseInt(user.dob.date.split("-")[0] + user.dob.date.split("-")[1] + user.dob.date.split("-")[2].slice(0, 2));
-                            let endDOBSearch = parseInt(endDOB.replace(/-/g, ""));
-                            let startDOBSearch = parseInt(startDOB.replace(/-/g, ""));
-                            if (endDOBSearch >= userDOB && startDOBSearch <= userDOB && searchName === user.name.first) {
-                                return <TableRows
-                                    key={user.login.uuid}
-                                    picture={user.picture.medium}
-                                    name={user.name}
-                                    username={user.login.username}
-                                    email={user.email}
-                                    dob={user.dob.date}
-                                />
-                            }
-                        })
-                        }
-                    </Table>}
-                    {/* Renders all table rows on load and after Reset is clicked*/}
-                    {users && sorted == null && searchName === "" && endDOB === "mm/dd/yyyy" && <Table
-                        sortByColumn={sortByColumn}
-                    >
-                        {users.map(user => (
-                            <TableRows
+                {/* Renders selection of Name & sorted by column */}
+                {users && searchName !== "" && startDOB === "mm/dd/yyyy" && endDOB === "mm/dd/yyyy" && <Table
+                    sortByColumn={sortByColumn}
+                >
+                    {sorted && sorted.map(user => {
+                        if (searchName === user.name.first) {
+                            return <TableRows
                                 key={user.login.uuid}
                                 picture={user.picture.medium}
                                 name={user.name}
@@ -197,15 +147,12 @@ function UserContainer() {
                                 email={user.email}
                                 dob={user.dob.date}
                             />
-                        ))
                         }
-                    </Table>}
-                    {/* Renders sorted by column */}
-                    {users && sorted && searchName === "" && endDOB === "mm/dd/yyyy" && <Table
-                        sortByColumn={sortByColumn}
-                    >
-                        {sorted.map(user => (
-                            <TableRows
+                    })
+                    }
+                    {sorted == null && users.map(user => {
+                        if (searchName === user.name.first) {
+                            return <TableRows
                                 key={user.login.uuid}
                                 picture={user.picture.medium}
                                 name={user.name}
@@ -213,12 +160,130 @@ function UserContainer() {
                                 email={user.email}
                                 dob={user.dob.date}
                             />
-                        ))
                         }
-                    </Table>}
-                </Row>
-            </Container>
-        );
+                    })
+                    }
+                </Table>}
+                {/* Renders selection of DOB & sorted by column*/}
+                {users && searchName === "" && startDOB !== "mm/dd/yyyy" && endDOB !== "mm/dd/yyyy" && <Table
+                    sortByColumn={sortByColumn}
+                >
+                    {sorted && sorted.map(user => {
+                        let userDOB = parseInt(user.dob.date.split("-")[0] + user.dob.date.split("-")[1] + user.dob.date.split("-")[2].slice(0, 2));
+                        let endDOBSearch = parseInt(endDOB.replace(/-/g, ""));
+                        let startDOBSearch = parseInt(startDOB.replace(/-/g, ""));
+                        if (endDOBSearch >= userDOB && startDOBSearch <= userDOB) {
+                            return <TableRows
+                                key={user.login.uuid}
+                                picture={user.picture.medium}
+                                name={user.name}
+                                username={user.login.username}
+                                email={user.email}
+                                dob={user.dob.date}
+                            />
+                        }
+                    })
+                    }
+                    {sorted == null && users.map(user => {
+                        let userDOB = parseInt(user.dob.date.split("-")[0] + user.dob.date.split("-")[1] + user.dob.date.split("-")[2].slice(0, 2));
+                        let endDOBSearch = parseInt(endDOB.replace(/-/g, ""));
+                        let startDOBSearch = parseInt(startDOB.replace(/-/g, ""));
+                        if (endDOBSearch >= userDOB && startDOBSearch <= userDOB) {
+                            return <TableRows
+                                key={user.login.uuid}
+                                picture={user.picture.medium}
+                                name={user.name}
+                                username={user.login.username}
+                                email={user.email}
+                                dob={user.dob.date}
+                            />
+                        }
+                    })
+                    }
+                </Table>}
+                {/* Renders selection of DOB and Name & sorts by column */}
+                {users && searchName !== "" && startDOB !== "mm/dd/yyyy" && endDOB !== "mm/dd/yyyy" && <Table
+                    sortByColumn={sortByColumn}
+                >
+                    {sorted && sorted.map(user => {
+                        let userDOB = parseInt(user.dob.date.split("-")[0] + user.dob.date.split("-")[1] + user.dob.date.split("-")[2].slice(0, 2));
+                        let endDOBSearch = parseInt(endDOB.replace(/-/g, ""));
+                        let startDOBSearch = parseInt(startDOB.replace(/-/g, ""));
+                        if (endDOBSearch >= userDOB && startDOBSearch <= userDOB && searchName === user.name.first) {
+                            return <TableRows
+                                key={user.login.uuid}
+                                picture={user.picture.medium}
+                                name={user.name}
+                                username={user.login.username}
+                                email={user.email}
+                                dob={user.dob.date}
+                            />
+                        }
+                    })
+                    }
+                    {sorted == null && users.map(user => {
+                        let userDOB = parseInt(user.dob.date.split("-")[0] + user.dob.date.split("-")[1] + user.dob.date.split("-")[2].slice(0, 2));
+                        let endDOBSearch = parseInt(endDOB.replace(/-/g, ""));
+                        let startDOBSearch = parseInt(startDOB.replace(/-/g, ""));
+                        if (endDOBSearch >= userDOB && startDOBSearch <= userDOB && searchName === user.name.first) {
+                            return <TableRows
+                                key={user.login.uuid}
+                                picture={user.picture.medium}
+                                name={user.name}
+                                username={user.login.username}
+                                email={user.email}
+                                dob={user.dob.date}
+                            />
+                        }
+                    })
+                    }
+                </Table>}
+                {/* Renders all table rows on load and after Reset is clicked & sorted by column*/}
+                {users && searchName === "" && endDOB === "mm/dd/yyyy" && <Table
+                    sortByColumn={sortByColumn}
+                >
+                    {sorted && sorted.map(user => (
+                        <TableRows
+                            key={user.login.uuid}
+                            picture={user.picture.medium}
+                            name={user.name}
+                            username={user.login.username}
+                            email={user.email}
+                            dob={user.dob.date}
+                        />
+                    ))
+                    }
+                    {sorted == null && users.map(user => (
+                        <TableRows
+                            key={user.login.uuid}
+                            picture={user.picture.medium}
+                            name={user.name}
+                            username={user.login.username}
+                            email={user.email}
+                            dob={user.dob.date}
+                        />
+                    ))
+                    }
+                </Table>}
+                {/* Renders sorted by column */}
+                {/* {users && sorted && searchName === "" && endDOB === "mm/dd/yyyy" && <Table
+                    sortByColumn={sortByColumn}
+                >
+                    {sorted.map(user => (
+                        <TableRows
+                            key={user.login.uuid}
+                            picture={user.picture.medium}
+                            name={user.name}
+                            username={user.login.username}
+                            email={user.email}
+                            dob={user.dob.date}
+                        />
+                    ))
+                    }
+                </Table>} */}
+            </Row>
+        </Container>
+    );
 }
 
 export default UserContainer;
