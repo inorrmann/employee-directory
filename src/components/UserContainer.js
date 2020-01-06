@@ -104,9 +104,11 @@ function UserContainer() {
             });
             sortedUsers = users;
         }
-
-        setSorted(sortedUsers);
+        // use spread operator to clear the old array and make javascript 
+        // understand the new one is different
+        setSorted([...sortedUsers]);
         console.log(sorted);
+        console.log(sortedUsers)
     }
 
     return (
