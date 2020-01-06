@@ -17,6 +17,37 @@
     margin: auto;
 }
 
-.head {
-font-weight: bolder;
+.header {
+    font-size: 1.1rem;
 }
+
+
+.table-sortable > thead > tr > th {
+    cursor: pointer;
+    position: relative;
+  }
+  
+.table-sortable > thead > tr > th:after,
+.table-sortable > thead > tr > th:after,
+.table-sortable > thead > tr > th:after {
+    content: ' ';
+    position: absolute;
+    height: 0;
+    width: 0;
+    right: 15px;
+    top: 24px; 
+  }
+  
+  /* Sortable indicators */
+  .table-sortable > thead > tr > th:after {
+    border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid #888;
+    border-bottom: 0px solid transparent;
+  }
+  
+  .table-sortable > thead > tr > th:hover:after {
+      border-top: 5px solid #333;
+  }
+  
+  
