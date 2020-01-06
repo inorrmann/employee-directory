@@ -31,7 +31,6 @@ function UserContainer() {
                         return namesArr.push(result.name.first);
                     }
                 });
-                console.log(res);
                 setNames(namesArr);
             })
             .catch(err => console.log(err));
@@ -48,8 +47,6 @@ function UserContainer() {
         setEndDOB("mm/dd/yyyy");
         setStartDOB("mm/dd/yyyy");
         setSorted(null)
-        console.log("reset")
-        console.log(sorted)
     }
 
     // Display only selected names
@@ -265,22 +262,6 @@ function UserContainer() {
                     ))
                     }
                 </Table>}
-                {/* Renders sorted by column */}
-                {/* {users && sorted && searchName === "" && endDOB === "mm/dd/yyyy" && <Table
-                    sortByColumn={sortByColumn}
-                >
-                    {sorted.map(user => (
-                        <TableRows
-                            key={user.login.uuid}
-                            picture={user.picture.medium}
-                            name={user.name}
-                            username={user.login.username}
-                            email={user.email}
-                            dob={user.dob.date}
-                        />
-                    ))
-                    }
-                </Table>} */}
             </Row>
         </Container>
     );
