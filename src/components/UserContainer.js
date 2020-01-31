@@ -128,7 +128,7 @@ function UserContainer() {
                 }
             </Row>
             <Row rowClass="bottom-row">
-                {/* users && -> render users onl when we have a user, this will prevent that 
+                {/* users && -> render users only when we have a user, this will prevent that 
                 at the beginning of loading, before the api gets the data 
                 we receive an error because we don't have users */}
 
